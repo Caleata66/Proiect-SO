@@ -143,7 +143,7 @@ void view(char hunt_id[], int id){
     close(log);
 }
 
-/*void remove_treasure(char hunt_id[], int id){
+void remove_treasure(char hunt_id[], int id){
     char treasures_path[256];
     snprintf(treasures_path, sizeof(treasures_path), "%s/treasures.dat", hunt_id);   
 
@@ -161,13 +161,14 @@ void view(char hunt_id[], int id){
             continue;
         }
         write(file_tmp, &treasure, sizeof(Treasure));
+        break;
     }
     close(file);
     close(file_tmp);
 
     unlink(treasures_path);
     rename(treasures_path_tmp, treasures_path);
-}*/ //Sterge treasure-ul, dar imi copiaza la infinit
+}
 
 void remove_hunt(char hunt_id[]){
     
