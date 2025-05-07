@@ -143,7 +143,7 @@ void view(char hunt_id[], int id){
     close(log);
 }
 
-void remove_treasure(char hunt_id[], int id){
+/*void remove_treasure(char hunt_id[], int id){
     char treasures_path[256];
     snprintf(treasures_path, sizeof(treasures_path), "%s/treasures.dat", hunt_id);   
 
@@ -156,19 +156,31 @@ void remove_treasure(char hunt_id[], int id){
 
     Treasure treasure;
 
-    while(read(file, &treasure, sizeof(Treasure)) == sizeof(Treasure)){
-        if(treasure.treasure_id == id){
-            continue;
+    int bytes_read;
+    while ((bytes_read = read(file, &treasure, sizeof(Treasure))) > 0) {
+        if (bytes_read != sizeof(Treasure)) {
+            fprintf(stderr, "Incomplete record read\n");
+            break;
         }
-        write(file_tmp, &treasure, sizeof(Treasure));
-        break;
+        if (treasure.treasure_id != id) {
+            write(file_tmp, &treasure, sizeof(Treasure));
+        }
     }
+
     close(file);
     close(file_tmp);
 
     unlink(treasures_path);
     rename(treasures_path_tmp, treasures_path);
-}
+
+    char log_path[256];
+    snprintf(log_path, sizeof(log_path), "%s/logged_hunt.txt", hunt_id); 
+    int log;
+
+    log = open(log_path, O_APPEND | O_WRONLY);
+    dprintf(log, "Remove treasure %d\n", id);
+    close(log);
+}*/
 
 void remove_hunt(char hunt_id[]){
     
