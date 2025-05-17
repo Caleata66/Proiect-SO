@@ -46,14 +46,14 @@ int main(int argc, char** argv){
         return 0;
     }
 
-    /*if(strcmp(argv[1], "--remove_treasure") == 0){
+    if(strcmp(argv[1], "--remove_treasure") == 0){
         if(argc != 4){
             perror("wrong number of arguments");
             exit(-1);
         }
         remove_treasure(argv[2], atoi(argv[3]));
         return 0;
-    }*/
+    }
 
     return 0;
 }

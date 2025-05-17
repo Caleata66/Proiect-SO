@@ -143,7 +143,7 @@ void view(char hunt_id[], int id){
     close(log);
 }
 
-/*void remove_treasure(char hunt_id[], int id){
+void remove_treasure(char hunt_id[], int id){
     char treasures_path[256];
     snprintf(treasures_path, sizeof(treasures_path), "%s/treasures.dat", hunt_id);   
 
@@ -152,12 +152,13 @@ void view(char hunt_id[], int id){
     char treasures_path_tmp[256];
     snprintf(treasures_path_tmp, sizeof(treasures_path_tmp), "%s/treasuresTmp.dat", hunt_id);   
 
-    int file_tmp = open(treasures_path, O_CREAT | O_APPEND | O_WRONLY, 0744);
+    int file_tmp = open(treasures_path_tmp, O_CREAT | O_WRONLY | O_APPEND, 0744);
 
     Treasure treasure;
 
     int bytes_read;
-    while ((bytes_read = read(file, &treasure, sizeof(Treasure))) > 0) {
+    bytes_read = read(file, &treasure, sizeof(Treasure));
+    while ( bytes_read > 0) {
         if (bytes_read != sizeof(Treasure)) {
             fprintf(stderr, "Incomplete record read\n");
             break;
@@ -165,13 +166,17 @@ void view(char hunt_id[], int id){
         if (treasure.treasure_id != id) {
             write(file_tmp, &treasure, sizeof(Treasure));
         }
+        bytes_read = read(file, &treasure, sizeof(Treasure));
     }
 
     close(file);
     close(file_tmp);
 
     unlink(treasures_path);
-    rename(treasures_path_tmp, treasures_path);
+    if(rename(treasures_path_tmp, treasures_path) != 0){
+        perror("Error renaming file");
+        exit(-1);
+    }
 
     char log_path[256];
     snprintf(log_path, sizeof(log_path), "%s/logged_hunt.txt", hunt_id); 
@@ -180,7 +185,7 @@ void view(char hunt_id[], int id){
     log = open(log_path, O_APPEND | O_WRONLY);
     dprintf(log, "Remove treasure %d\n", id);
     close(log);
-}*/
+}
 
 void remove_hunt(char hunt_id[]){
     
