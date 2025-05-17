@@ -189,6 +189,13 @@ void remove_treasure(char hunt_id[], int id){
 
 void remove_hunt(char hunt_id[]){
     
+    char log_path[256];
+    snprintf(log_path, sizeof(log_path), "%s/logged_hunt.txt", hunt_id); 
+    if(unlink(log_path) == -1){
+        perror("Error removing file");
+        exit(-1);
+    }
+
     char file_path[256];
     snprintf(file_path, sizeof(file_path), "%s/treasures.dat", hunt_id);
     if(unlink(file_path) == -1){
@@ -196,12 +203,7 @@ void remove_hunt(char hunt_id[]){
         exit(-1);
     }
 
-    char log_path[256];
-    snprintf(log_path, sizeof(log_path), "%s/logged_hunt.txt", hunt_id); 
-    if(unlink(log_path) == -1){
-        perror("Error removing file");
-        exit(-1);
-    }
+    
 
     if(rmdir(hunt_id) == -1){
         perror("Error removing directory");
