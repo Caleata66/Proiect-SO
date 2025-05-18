@@ -90,14 +90,17 @@ void list(char hunt_id[]){
 
     int file = open(file_path, O_RDONLY);
     Treasure treasure;
+    int count = 0;
     while(read(file, &treasure, sizeof(Treasure)) == sizeof(Treasure)){
         printf("Id: %d\n", treasure.treasure_id);
-        printf("User name :%s\n", treasure.user_name);
+        printf("User name: %s\n", treasure.user_name);
         printf("Latitude: %g\n", treasure.coordinates.latitude);
         printf("Longitude: %g\n", treasure.coordinates.longitude);
         printf("Clue: %s\n", treasure.clue);
         printf("Value: %d\n\n", treasure.value);
+        count++;
     }
+    printf("Number of treasures: %d\n\n", count);
     close(file);
 
     char log_path[256];
